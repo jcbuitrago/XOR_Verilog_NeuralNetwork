@@ -1,0 +1,65 @@
+ParameterName,Description,Value
+# Hidden Layer (4 Neurons)
+h1_w1,"Hidden Neuron 1, Weight for Input 1",4.85
+h1_w2,"Hidden Neuron 1, Weight for Input 2",6.70
+h1_bias,"Hidden Neuron 1, Bias",-3.30
+h2_w1,"Hidden Neuron 2, Weight for Input 1",-0.40
+h2_w2,"Hidden Neuron 2, Weight for Input 2",-0.40
+h2_bias,"Hidden Neuron 2, Bias",0.00
+h3_w1,"Hidden Neuron 3, Weight for Input 1",-0.30
+h3_w2,"Hidden Neuron 3, Weight for Input 2",0.35
+h3_bias,"Hidden Neuron 3, Bias",-0.35
+h4_w1,"Hidden Neuron 4, Weight for Input 1",8.75
+h4_w2,"Hidden Neuron 4, Weight for Input 2",-0.30
+h4_bias,"Hidden Neuron 4, Bias",-1.45
+# Output Layer (10 Neurons)
+out_w11,"Output Neuron 1, Weight for Hidden 1 Output",-0.20
+out_w12,"Output Neuron 1, Weight for Hidden 2 Output",0.35
+out_w13,"Output Neuron 1, Weight for Hidden 3 Output",0.00
+out_w14,"Output Neuron 1, Weight for Hidden 4 Output",0.10
+out_bias1,"Output Neuron 1, Bias",-1.75
+out_w21,"Output Neuron 2, Weight for Hidden 1 Output",-4.35
+out_w22,"Output Neuron 2, Weight for Hidden 2 Output",-0.20
+out_w23,"Output Neuron 2, Weight for Hidden 3 Output",-0.35
+out_w24,"Output Neuron 2, Weight for Hidden 4 Output",-3.85
+out_bias2,"Output Neuron 2, Bias",3.65
+out_w31,"Output Neuron 3, Weight for Hidden 1 Output",-1.50
+out_w32,"Output Neuron 3, Weight for Hidden 2 Output",0.10
+out_w33,"Output Neuron 3, Weight for Hidden 3 Output",-0.15
+out_w34,"Output Neuron 3, Weight for Hidden 4 Output",0.30
+out_bias3,"Output Neuron 3, Bias",-0.95
+out_w41,"Output Neuron 4, Weight for Hidden 1 Output",-7.40
+out_w42,"Output Neuron 4, Weight for Hidden 2 Output",-0.45
+out_w43,"Output Neuron 4, Weight for Hidden 3 Output",-0.50
+out_w44,"Output Neuron 4, Weight for Hidden 4 Output",3.85
+out_bias4,"Output Neuron 4, Bias",-7.90
+out_w51,"Output Neuron 5, Weight for Hidden 1 Output",-1.80
+out_w52,"Output Neuron 5, Weight for Hidden 2 Output",-0.10
+out_w53,"Output Neuron 5, Weight for Hidden 3 Output",-0.25
+out_w54,"Output Neuron 5, Weight for Hidden 4 Output",3.35
+out_bias5,"Output Neuron 5, Bias",-12.75
+out_w61,"Output Neuron 6, Weight for Hidden 1 Output",-0.25
+out_w62,"Output Neuron 6, Weight for Hidden 2 Output",0.00
+out_w63,"Output Neuron 6, Weight for Hidden 3 Output",0.20
+out_w64,"Output Neuron 6, Weight for Hidden 4 Output",0.45
+out_bias6,"Output Neuron 6, Bias",-3.25
+out_w71,"Output Neuron 7, Weight for Hidden 1 Output",3.00
+out_w72,"Output Neuron 7, Weight for Hidden 2 Output",0.45
+out_w73,"Output Neuron 7, Weight for Hidden 3 Output",0.00
+out_w74,"Output Neuron 7, Weight for Hidden 4 Output",0.60
+out_bias7,"Output Neuron 7, Bias",-13.0
+out_w81,"Output Neuron 8, Weight for Hidden 1 Output",0.70
+out_w82,"Output Neuron 8, Weight for Hidden 2 Output",0.00
+out_w83,"Output Neuron 8, Weight for Hidden 3 Output",0.45
+out_w84,"Output Neuron 8, Weight for Hidden 4 Output",-0.15
+out_bias8,"Output Neuron 8, Bias",-4.00
+out_w91,"Output Neuron 9, Weight for Hidden 1 Output",0.50
+out_w92,"Output Neuron 9, Weight for Hidden 2 Output",0.50
+out_w93,"Output Neuron 9, Weight for Hidden 3 Output",0.30
+out_w94,"Output Neuron 9, Weight for Hidden 4 Output",-0.50
+out_bias9,"Output Neuron 9, Bias",-2.20
+out_w101,"Output Neuron 10, Weight for Hidden 1 Output",2.40
+out_w102,"Output Neuron 10, Weight for Hidden 2 Output",-0.35
+out_w103,"Output Neuron 10, Weight for Hidden 3 Output",-0.15
+out_w104,"Output Neuron 10, Weight for Hidden 4 Output",-9.00
+out_bias10,"Output Neuron 10, Bias",-3.90

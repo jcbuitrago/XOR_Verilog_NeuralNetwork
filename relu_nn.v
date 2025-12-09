@@ -1,82 +1,70 @@
 //===============================================================
-// Módulo: Relu Neural Network (2-2-1 architecture)
-// Autor: Juan Camilo Buitrago Ariza + GitHub Copilot
-// Architecture: 2 inputs -> 2 hidden neurons -> 1 output neuron
+// Módulo: neurona relu en punto fijo Q8.8 (16 bits)
+// Autor: Juan Camilo Buitrago Ariza + ChatGPT (GPT-5)
 //===============================================================
 
-`include "relu_neuron.v"
-
-module relu_nn #(
-    parameter WIDTH = 16,
-    parameter FRAC = 8
+module relu_neuron #(
+  parameter WIDTH = 16,
+  parameter FRAC = 8
 )(
     input                           clk,
     input                           rst,
-    // Network inputs
-    input signed    [WIDTH-1:0]     net_input1,
-    input signed    [WIDTH-1:0]     net_input2,
-    // Hidden layer weights and biases
-    input signed    [WIDTH-1:0]     h1_w1,      // Hidden neuron 1, weight 1
-    input signed    [WIDTH-1:0]     h1_w2,      // Hidden neuron 1, weight 2
-    input signed    [WIDTH-1:0]     h1_bias,    // Hidden neuron 1, bias
-    input signed    [WIDTH-1:0]     h2_w1,      // Hidden neuron 2, weight 1
-    input signed    [WIDTH-1:0]     h2_w2,      // Hidden neuron 2, weight 2
-    input signed    [WIDTH-1:0]     h2_bias,    // Hidden neuron 2, bias
-    // Output layer weights and bias
-    input signed    [WIDTH-1:0]     out_w1,     // Output neuron, weight 1
-    input signed    [WIDTH-1:0]     out_w2,     // Output neuron, weight 2
-    input signed    [WIDTH-1:0]     out_bias,   // Output neuron, bias
-    // Network output
-    output signed   [WIDTH-1:0]     net_output
+    input 	signed	[WIDTH-1:0] 	input1,
+    input 	signed 	[WIDTH-1:0] 	input2,
+    input 	signed 	[WIDTH-1:0] 	weight1,
+    input 	signed 	[WIDTH-1:0] 	weight2,
+    input 	signed 	[WIDTH-1:0] 	bias,
+    output 	reg signed 	[WIDTH-1:0] result
 );
 
-    // Hidden layer outputs
-    wire signed [WIDTH-1:0] hidden1_out;
-    wire signed [WIDTH-1:0] hidden2_out;
+    // Stage 1: Multiplication
+    wire	signed	[2*WIDTH-1:0]   mult1_full, mult2_full;
+    wire 	signed	[WIDTH-1:0]     mult1_scaled, mult2_scaled;
+    reg 	signed	[WIDTH-1:0]     mult1_reg, mult2_reg;
+    reg     signed  [WIDTH-1:0]     bias_reg;
 
-    // Hidden Layer - Neuron 1
-    relu_neuron #(
-        .WIDTH(WIDTH),
-        .FRAC(FRAC)
-    ) hidden_neuron1 (
-        .clk(clk),
-        .rst(rst),
-        .input1(net_input1),
-        .input2(net_input2),
-        .weight1(h1_w1),
-        .weight2(h1_w2),
-        .bias(h1_bias),
-        .result(hidden1_out)
-    );
+    // Stage 2: Addition
+    wire 	signed	[WIDTH:0]       sum_partial, sum_total;
+    reg     signed  [WIDTH:0]       sum_total_reg;
 
-    // Hidden Layer - Neuron 2
-    relu_neuron #(
-        .WIDTH(WIDTH),
-        .FRAC(FRAC)
-    ) hidden_neuron2 (
-        .clk(clk),
-        .rst(rst),
-        .input1(net_input1),
-        .input2(net_input2),
-        .weight1(h2_w1),
-        .weight2(h2_w2),
-        .bias(h2_bias),
-        .result(hidden2_out)
-    );
+    // Stage 1: Multiplication and scale  
+    assign mult1_full = input1 * weight1;
+    assign mult2_full = input2 * weight2;
+    
+    assign mult1_scaled = mult1_full >>> FRAC;
+    assign mult2_scaled = mult2_full >>> FRAC;
 
-    // Output Layer - Neuron
-    relu_neuron #(
-        .WIDTH(WIDTH),
-        .FRAC(FRAC)
-    ) output_neuron (
-        .clk(clk),
-        .rst(rst),
-        .input1(hidden1_out),
-        .input2(hidden2_out),
-        .weight1(out_w1),
-        .weight2(out_w2),
-        .bias(out_bias),
-        .result(net_output)
-    );
+    always @(posedge clk or posedge rst) begin
+        if (rst) begin
+            mult1_reg <= {WIDTH{1'b0}};
+            mult2_reg <= {WIDTH{1'b0}};
+            bias_reg  <= {WIDTH{1'b0}};
+        end else begin
+            mult1_reg <= mult1_scaled;
+            mult2_reg <= mult2_scaled;
+            bias_reg  <= bias;
+        end
+    end
 
+    // Stage 2: Add    
+    assign sum_partial = mult1_reg + mult2_reg;
+    assign sum_total = sum_partial + bias_reg;
+
+    always @(posedge clk or posedge rst) begin
+        if (rst) begin
+            sum_total_reg <= {(WIDTH+1){1'b0}};
+        end else begin
+            sum_total_reg <= sum_total;
+        end
+    end
+
+    // Stage 3: Relu  
+    always @(posedge clk or posedge rst) begin
+        if (rst) begin
+            result <= {WIDTH{1'b0}};
+        end else begin
+            result <= sum_total_reg[WIDTH] ? {WIDTH{1'b0}} : sum_total_reg[WIDTH-1:0];
+        end
+    end
+  
 endmodule
